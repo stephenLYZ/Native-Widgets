@@ -27,14 +27,14 @@ body{
 	-webkit-transition:0.3s linear;
 }
 .link-miss .icon{
-	background: url("../image/mission.png") no-repeat center center;
+	background: url("./mission.png") no-repeat center center;
 }
 .link-play .icon{
-	background: url("../image/play.png") no-repeat center center;
+	background: url("./play.png") no-repeat center center;
 
 }
 .link-touch .icon{
-	background: url("../image/touch.png") no-repeat center center;
+	background: url("./touch.png") no-repeat center center;
 }
 .link .icon:hover{
 	cursor: pointer; 
@@ -54,7 +54,7 @@ body{
 	padding-left:20px;
 	margin: 0 auto;
 	box-sizing:border-box;
-	background: url("../image/allow.png") no-repeat 130px center;
+	background: url("./allow.png") no-repeat 130px center;
 	position: relative;
 	transition: 0.4s ease;
 	-webkit-transition:0.4s ease;
