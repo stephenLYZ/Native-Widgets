@@ -7,6 +7,7 @@ class Popup {
     this.content = options.content
     this.open = options.open
     this.close = options.close
+    this.isFork = options.isFork
     this.isDrag = options.isDrag
     this.isMask = options.isMask
     this.width = options.width
@@ -34,6 +35,7 @@ Popup.DEFAULT = {
   content: 'This a popup ui component, by stephenliu',
   open: function() { console.log('open popup!') },
   close: function() { console.log('close popup!') },
+  isFork: true,
   isDrag: true,
   isMask: true,
   width: 400,
