@@ -888,7 +888,7 @@ var App = function () {
     value: function renderPopup(e) {
       e.preventDefault();
       var popup = new _Popup2.default({
-        skin: 'yellow'
+        skin: 'blue'
       });
       popup.init();
     }
