@@ -15,26 +15,55 @@ class Popup {
   }
 
   init() {
-    let container = document.createElement('div')
-    container.classList.add(this.container)
-    this.renderHeader(container)
-    document.body.appendChild(container)
+    let container = document.querySelector(`.${this.container}`)
+    if(!container) {
+      let container = document.createElement('div')
+      container.classList.add(this.container)
+      document.body.appendChild(container)
+      this.render(container)
+    }
+    container.style.width = this.width
   }
 
-  renderHeader(container) {
-    let header = document.createElement('div')
-    header.classList.add('header')
-    header.innerHTML = this.title
-    container.appendChild(header)
+  renderMask() {
+    if(isMask) {
+      let mask = document.createElement('div')
+      mask.classList.add('mask')
+      document.body.appendChild(mask)
+    }
   }
+
+
+  render(container) {
+    let tpl = `<div class="header"> ${this.title} </div>` +
+              `<div class="content"> ${this.content} </div>` +
+              `<div class="footer">` +
+              `<button id="open" class="btn">${this.open.name}` +
+              `<button id="close" class="btn">${this.close.name}` +
+              `</div>`
+    container.innerHTML = tpl
+  }
+
+  bindEvents() {
+
+  }
+
+  show() {}
+  hide() {}
 }
 
 Popup.DEFAULT = {
   container: 'popup',
   title: 'Popup UI Component',
   content: 'This a popup ui component, by stephenliu',
-  open: function() { console.log('open popup!') },
-  close: function() { console.log('close popup!') },
+  open: {
+    name: '确定',
+    handler: function() { console.log('open popup!') }
+  },
+  close: {
+    name: '取消',
+    handler: function() { console.log('close popup!') }
+  },
   isFork: true,
   isDrag: true,
   isMask: true,
