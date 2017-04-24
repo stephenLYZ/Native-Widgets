@@ -2,54 +2,87 @@ import './popup.scss'
 
 class Popup {
   constructor(options) {
-    this.container = options.container
-    this.title = options.title
-    this.content = options.content
-    this.open = options.open
-    this.close = options.close
-    this.isFork = options.isFork
-    this.isDrag = options.isDrag
-    this.isMask = options.isMask
-    this.width = options.width
-    this.height = options.height
+    this.options = Object.assign({}, Popup.DEFAULT, options)
+    this.container = this.options.container
+    this.title = this.options.title
+    this.content = this.options.content
+    this.open = this.options.open
+    this.close = this.options.close
+    this.isFork = this.options.isFork
+    this.isDrag = this.options.isDrag
+    this.isMask = this.options.isMask
+    this.width = this.options.width
+    this.height = this.options.height
+    this.skin = this.options.skin
   }
 
   init() {
-    let container = document.querySelector(`.${this.container}`)
-    if(!container) {
-      let container = document.createElement('div')
-      container.classList.add(this.container)
-      document.body.appendChild(container)
-      this.render(container)
+    this.containerBox = document.querySelector(`.${this.container}`)
+    this.mask =  document.querySelector('.mask')
+    let styleValue = `width: ${this.width}px; height: ${this.height}px;`
+    if(!this.containerBox || !this.mask) {
+      this.containerBox = document.createElement('div')
+      this.containerBox.classList.add(this.container)
+      this.containerBox.classList.add(this.skin)
+      this.containerBox.classList.add('box')
+      this.containerBox.setAttribute('style', styleValue)
+      document.body.appendChild(this.containerBox)
+      this.render()
+      this.renderFork()
+      this.renderMask()
+      this.bindEvents()
     }
-    container.style.width = this.width
+    this.containerBox.classList.toggle('show')
+    this.mask.classList.toggle('show')
   }
 
   renderMask() {
-    if(isMask) {
-      let mask = document.createElement('div')
-      mask.classList.add('mask')
-      document.body.appendChild(mask)
+    if(this.isMask) {
+      this.mask = document.createElement('div')
+      this.mask.classList.add('mask')
+      document.body.appendChild(this.mask)
     }
   }
 
+  renderFork() {
+    if(this.isFork) {
+      this.header = document.querySelector('.header')
+      this.fork = document.createElement('span')
+      this.fork.classList.add('fork')
+      this.header.appendChild(this.fork)
+    }
+  }
 
-  render(container) {
+  render() {
     let tpl = `<div class="header"> ${this.title} </div>` +
               `<div class="content"> ${this.content} </div>` +
               `<div class="footer">` +
-              `<button id="open" class="btn">${this.open.name}` +
-              `<button id="close" class="btn">${this.close.name}` +
+              `<button class="open btn">${this.open.name}` +
+              `<button class="close btn">${this.close.name}` +
               `</div>`
-    container.innerHTML = tpl
+    this.containerBox.innerHTML = tpl
   }
+
 
   bindEvents() {
+    this.openNode = document.querySelector('.open')
+    this.closeNode = document.querySelector('.close')
 
+    this.openNode.addEventListener('click', this.open.handler.bind(this), false)
+    this.closeNode.addEventListener('click', this.close.handler.bind(this), false)
+
+    this.fork.addEventListener('click', () => {
+      this.toggle()
+    }, false)
+    this.mask.addEventListener('click', () => {
+      this.toggle()
+    }, false)
   }
 
-  show() {}
-  hide() {}
+  toggle() {
+    this.containerBox.classList.toggle('show')
+    this.mask.classList.toggle('show')
+  }
 }
 
 Popup.DEFAULT = {
@@ -68,7 +101,8 @@ Popup.DEFAULT = {
   isDrag: true,
   isMask: true,
   width: 400,
-  height: 200
+  height: 200,
+  skin: 'blue'
 }
 
 export default Popup

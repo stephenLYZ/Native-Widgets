@@ -1,0 +1,109 @@
+.box {
+  position: absolute;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  z-index: 101;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+
+  .header {
+    height: 0;
+    line-height: 6%;
+    padding: 6% 5%;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  }
+
+  .content {
+    padding: 4% 5%;
+  }
+
+  .btn {
+    position: absolute;
+    bottom: 3%;
+  }
+  .btn.close {
+    right: 15px;
+  }
+  .btn.open {
+    right: 100px;
+  }
+
+  .fork::before{
+    content: 'x';
+    font-size: 18px;
+    float: right;
+    cursor: pointer;
+  }
+}
+
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.4);
+  z-index: 100;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+.blue {
+  .header, .btn{
+    background-color: #5292F7;
+    color: #fff;
+  }
+  .fork {
+    color: #fff;
+  }
+}
+
+.black {
+  .header, .btn{
+    background-color: #41464B;
+    color: #fff;
+  }
+  .fork {
+    color: #fff;
+  }
+}
+
+.red {
+  .header, .btn{
+    background-color: #D7003B;
+    color: #fff;
+  }
+  .fork {
+    color: #fff;
+  }
+}
+
+.green {
+  .header, .btn{
+    background-color: #00A496;
+    color: #fff;
+  }
+  .fork {
+    color: #fff;
+  }
+}
+
+.yellow {
+  .header, .btn{
+    background-color: #F6C751;
+    color: #fff;
+  }
+  .fork {
+    color: #fff;
+  }
+}

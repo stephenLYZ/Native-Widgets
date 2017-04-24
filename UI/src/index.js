@@ -23,7 +23,9 @@ class App {
 
   renderPopup(e) {
     e.preventDefault()
-    let popup = new Popup(Popup.DEFAULT)
+    let popup = new Popup({
+      skin: 'yellow'
+    })
     popup.init()
   }
 }
