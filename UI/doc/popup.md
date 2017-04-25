@@ -2,7 +2,7 @@
 
 > 基于原生的popup组件
 
-[demo](http://stephenlyao.github.io/FESpring/UI/dist/)
+[demo](http://stephenlyao.github.io/Doooosth/UI/dist/)
 
 ### Api
 
