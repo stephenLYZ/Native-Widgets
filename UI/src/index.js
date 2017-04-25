@@ -1,5 +1,6 @@
 import './app.scss'
 import Popup from './Popup'
+import Typehead from './Typehead'
 
 class App {
   constructor() {
@@ -10,6 +11,11 @@ class App {
       name: '弹出框',
       handler: this.renderPopup
     })
+    this.renderButton({
+      name: 'Typehead',
+      handler: this.renderTypehead
+    })
+    this.renderShowbox()
   }
 
   renderButton(option) {
@@ -21,12 +27,28 @@ class App {
     button.addEventListener('click', option.handler, false)
   }
 
+  renderShowbox() {
+    let box = document.createElement('div')
+    box.classList.add('box')
+    document.body.appendChild(box)
+  }
+
   renderPopup(e) {
     e.preventDefault()
     let popup = new Popup({
-      skin: 'blue'
+      skin: 'blue',
+      close: {
+        name: '关闭',
+        handler: function() {
+          popup.toggle()
+        }
+      }
     })
     popup.init()
+  }
+
+  renderTypehead(e) {
+    e.preventDefault()
   }
 }
 

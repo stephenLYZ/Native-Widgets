@@ -20,7 +20,7 @@ class Popup {
     this.containerBox = document.querySelector(`.${this.container}`)
     this.mask =  document.querySelector('.mask')
     let styleValue = `width: ${this.width}px; height: ${this.height}px;`
-    if(!this.containerBox || !this.mask) {
+    if(!this.containerBox) {
       this.containerBox = document.createElement('div')
       this.containerBox.classList.add(this.container)
       this.containerBox.classList.add(this.skin)
@@ -33,7 +33,7 @@ class Popup {
       this.bindEvents()
     }
     this.containerBox.classList.toggle('show')
-    this.mask.classList.toggle('show')
+    if(this.mask) this.mask.classList.toggle('show')
   }
 
   renderMask() {
@@ -68,20 +68,25 @@ class Popup {
     this.openNode = document.querySelector('.open')
     this.closeNode = document.querySelector('.close')
 
-    this.openNode.addEventListener('click', this.open.handler.bind(this), false)
-    this.closeNode.addEventListener('click', this.close.handler.bind(this), false)
+    this.openNode.addEventListener('click', this.open.handler, false)
+    this.closeNode.addEventListener('click', this.close.handler, false)
 
-    this.fork.addEventListener('click', () => {
-      this.toggle()
-    }, false)
-    this.mask.addEventListener('click', () => {
-      this.toggle()
-    }, false)
+    if(this.fork) {
+      this.fork.addEventListener('click', () => {
+        this.toggle()
+      }, false)
+    }
+    
+    if(this.mask) {
+      this.mask.addEventListener('click', () => {
+        this.toggle()
+      }, false)
+    }
   }
 
   toggle() {
     this.containerBox.classList.toggle('show')
-    this.mask.classList.toggle('show')
+    if(this.mask) this.mask.classList.toggle('show')
   }
 }
 
