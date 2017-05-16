@@ -18,3 +18,23 @@ body {
   outline: 0;
   margin: 20px;
 }
+
+.autocomplete {
+  display: none;
+  position: absolute;
+  outline: 0;
+  padding: 10px 10px;
+  width: 150px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &:focus {
+    border: 1px solid skyblue;
+    box-shadow: 0 0 1px #000;
+  }
+
+  &.show {
+    display: block;
+  } 
+}

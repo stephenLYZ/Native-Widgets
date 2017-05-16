@@ -1,6 +1,6 @@
 import './app.scss'
 import Popup from './Popup'
-import Typehead from './Typehead'
+import Autocomplete from './Autocomplete'
 
 class App {
   constructor() {
@@ -8,29 +8,23 @@ class App {
 
   init() {
     this.renderButton({
-      name: '弹出框',
+      name: 'popup',
       handler: this.renderPopup
     })
     this.renderButton({
-      name: 'Typehead',
-      handler: this.renderTypehead
+      name: 'autocomplete',
+      handler: this.renderAutocomplete
     })
-    this.renderShowbox()
   }
 
   renderButton(option) {
     let button = document.createElement('button')
     let name = document.createTextNode(option.name)
     button.classList.add('btn')
+    button.classList.add(`btn-${option.name}`)
     button.appendChild(name)
     document.body.appendChild(button)
-    button.addEventListener('click', option.handler, false)
-  }
-
-  renderShowbox() {
-    let box = document.createElement('div')
-    box.classList.add('box')
-    document.body.appendChild(box)
+    button.addEventListener('click', option.handler.bind(this), false)
   }
 
   renderPopup(e) {
@@ -47,9 +41,26 @@ class App {
     popup.init()
   }
 
-  renderTypehead(e) {
+  renderAutocomplete(e) {
     e.preventDefault()
+    let button = document.querySelector('.btn-autocomplete')
+    button.classList.toggle('on')
+    if (!this.input) {
+      this.input = document.createElement('input')
+      this.input.classList.add('autocomplete')
+      button.parentNode.insertBefore(this.input, null)
+    }       
+    this.enable(this.input, button.classList.contains('on'))
+    let autocomplete = new Autocomplete({
+
+    })
+    autocomplete.init()
   }
+
+  enable(el, enabled = true) {
+    el.classList.toggle('show', enabled)
+  }
+
 }
 
 let app = new App()
