@@ -15,6 +15,10 @@ class App {
       name: 'autocomplete',
       handler: this.renderAutocomplete
     })
+    this.renderButton({
+      name: 'refresh',
+      handler: this.renderRefresh
+    })
   }
 
   renderButton(option) {
@@ -57,9 +61,21 @@ class App {
     autocomplete.init()
   }
 
+  renderRefresh(e) {
+    e.preventDefault()
+    let button = document.querySelector('.btn-refresh')
+    button.classList.toggle('on')
+    if (!this.container) {
+      
+    }
+    
+  }
+
   enable(el, enabled = true) {
     el.classList.toggle('show', enabled)
   }
+
+
 
 }
 

@@ -1,6 +1,6 @@
 ## Doooosth
 
-> 使用原生JS来做一些有趣的事情
+> Use native equivalent to doooooooo some things
 
 ## UI 组件
 
@@ -14,5 +14,13 @@
 
 [下拉刷新](https://github.com/stephenLYao/Doooosth/blob/gh-pages/UI/doc/fresh.md)
 [源代码](https://github.com/stephenLYao/Doooosth/tree/gh-pages/UI/src/fresh)
+
+## You-dont-need-jquery
+[选择器]()  
+[操作DOM]()  
+[操作CSS]()
+[show和hide实现]()  
+[事件绑定实现]()
+
 
 
