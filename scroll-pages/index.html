@@ -36,8 +36,8 @@
     .menu li:hover {
         background: #fffc;
     }
-    .menu li.active {
-        background: #00000080;
+    .menu li a.active {
+        background: #000000;
         color: #fff;
     }
     .menu li a {
@@ -45,6 +45,7 @@
         text-decoration: none;
         padding: 9px 9px;
         display: block;
+        border-radius: 10px;
     }
     .pages {
         height: 100%;
@@ -76,7 +77,7 @@
 </head>
 <body>
     <ul class="menu">
-        <li><a href="#section0"> First Page </a></li>
+        <li><a href="#section0" class="active"> First Page </a></li>
         <li><a href="#section1"> Second Page</a></li>
         <li><a href="#section2">Third Page </a></li>
     </ul>
@@ -103,21 +104,64 @@
         constructor(options) {
             this.options = Object.assign({}, ScrollPages.DEFAULT, options)
             this.menu = document.querySelector(this.options.menu)
-            this.bindEvents()
-        }
-        init () {
-
-        }
-        bindEvents() {
+            this.anchors = this.options.anchors
+            this.sectionHeight = document.querySelector('.section').scrollHeight
             // 事件委托，点击 achor 转向对应的 section
-            this.menu.addEventListener('click', this.handleSectionMove.bind(this));
-        }
-        handleSectionMove(e) {
+            this.menu.addEventListener('click', this.handleSectionMove.bind(this))
+            // 监听 scroll 事件
             
-        } 
+            document.addEventListener('scroll', this.throttle(this.handleScrollMove.bind(this), 200))
+        }
+
+        handleSectionMove(e) {
+            e.preventDefault()
+            let target = e.target
+            this.checkClassName(target);
+            let sectionId = target.getAttribute('href')
+            let section = document.querySelector(sectionId)
+            if (window.scrollTo) {
+                window.scrollTo({"behavior": "smooth", "top": section.offsetTop})
+            }
+        }
+
+        handleScrollMove(e) {
+            let remain = parseInt(document.documentElement.scrollTop / this.sectionHeight);
+            let anchor = this.anchors[remain];
+            let a = document.querySelector(`a[href='#${anchor}']`);
+            this.checkClassName(a);
+        }
+
+        checkClassName(target) {
+            if (!target.classList.contains('active')) {
+                let lastActive = document.querySelector('a.active')
+                lastActive.classList.remove('active')
+                target.classList.add('active')
+            }
+        }
+
+        throttle(fn, threshhold = 250) {
+            let last
+            let timer
+            return function () {
+                let context = this
+                let args = arguments
+                let now = +new Date()
+                if (last && now < last + threshhold) {
+                    clearTimeout(timer)
+                    timer = setTimeout(function () {
+                        last = now
+                        fn.apply(context, args)
+                    }, threshhold)
+                } else {
+                    last = now
+                    fn.apply(context, args)
+                }
+            }
+        }
       }
       ScrollPages.DEFAULT = {
           menu: '.menu',
+          anchors: ['section0', 'section1', 'section2']
       }
       new ScrollPages();
     </script>
