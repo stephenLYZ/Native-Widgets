@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Scroll-Page</title>
+    <style>
+    * {
+    margin: 0;
+    padding: 0;
+    }
+    h1{
+        font-size: 5em;
+        font-family: arial,helvetica;
+        color: #fff;
+        margin:0;
+    }
+    .menu {
+        position: fixed;
+        top: 10px;
+        left: 0;
+        height: 40px;
+        z-index: 70;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    .menu li {
+        display: inline-block;
+        color: #000;
+        background: #ffffff80;
+        border-radius: 10px;
+    }
+    .menu li:hover {
+        background: #fffc;
+    }
+    .menu li.active {
+        background: #00000080;
+        color: #fff;
+    }
+    .menu li a {
+        color: #fff;
+        text-decoration: none;
+        padding: 9px 9px;
+        display: block;
+    }
+    .pages {
+        height: 100%;
+        position: relative;
+    }
+    .section{
+        text-align:center;
+        height: 726px;
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+    .section .info {
+        margin: 0;
+        display: table-cell;
+        vertical-align: middle;
+        width: 100%;
+    }
+    #section0 {
+        background-color: #c63d0f;
+    }
+    #section1 {
+        background-color: #1bbc9b;
+    }
+    #section2 {
+        background-color: #00000080;
+    }
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <li><a href="#section0"> First Page </a></li>
+        <li><a href="#section1"> Second Page</a></li>
+        <li><a href="#section2">Third Page </a></li>
+    </ul>
+    <div class="pages">
+        <div class="section" id="section0">
+            <div class="info">
+                <h1>First Page</h1>
+            </div>
+        </div>
+        <div class="section" id="section1">
+            <div class="info">
+                <h1>Second Page</h1>
+            </div>
+        </div>
+        <div class="section" id="section2">
+            <div class="info">
+                <h1>Third Page</h1>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+      class ScrollPages {
+        constructor(options) {
+            this.options = Object.assign({}, ScrollPages.DEFAULT, options)
+            this.menu = document.querySelector(this.options.menu)
+            this.bindEvents()
+        }
+        init () {
+
+        }
+        bindEvents() {
+            // 事件委托，点击 achor 转向对应的 section
+            this.menu.addEventListener('click', this.handleSectionMove.bind(this));
+        }
+        handleSectionMove(e) {
+            
+        } 
+      }
+      ScrollPages.DEFAULT = {
+          menu: '.menu',
+      }
+      new ScrollPages();
+    </script>
+</body>
+</html>
