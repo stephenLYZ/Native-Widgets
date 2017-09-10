@@ -5,7 +5,7 @@ window.onload = function(){
 
 	//当屏幕超过开始显示内容时，图标显示，否则隐藏
 	window.onscroll = function(){
-		var backtop = document.body.scrollTop;
+		var backtop = document.body.scrollTop || document.documentElement.scrollTop;
 		if(backtop >= presentHeight){
 			btntop.style.display = "block";
 		}else{
