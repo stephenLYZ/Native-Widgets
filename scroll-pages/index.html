@@ -106,11 +106,10 @@
             this.options = Object.assign({}, ScrollPages.DEFAULT, options)
             this.menu = document.querySelector(this.options.menu)
             this.anchors = this.options.anchors
-            this.sectionHeight = document.querySelector('.section').scrollHeight
             // 事件委托，点击 achor 转向对应的 section
             this.menu.addEventListener('click', this.handleSectionMove.bind(this), false)
             // 监听 scroll 事件
-            document.addEventListener('scroll', this.handleScrollMove.bind(this), false)
+            document.addEventListener('scroll', this.throttle(this.handleScrollMove.bind(this), 500), false)
         }
 
         handleSectionMove(e) {
@@ -125,16 +124,16 @@
         }
 
         handleScrollMove(e) {
-            let remain = 0
+            let self = this
             let scrollTop = document.documentElement.scrollTop
-            if (scrollTop >= this.sectionHeight / 2 && scrollTop <= 3 * this.sectionHeight / 2) {
-                remain = 1
-            } else if (scrollTop > 3 * this.sectionHeight / 2) (
-                remain = 2
-            )
-            let anchor = this.anchors[remain];
-            let a = document.querySelector(`a[href='#${anchor}']`);
-            this.checkClassName(a);
+            this.anchors.forEach(function (anchor, index) {   
+                let section = document.querySelector(`#${anchor}`)
+                if ((scrollTop >= section.offsetTop - section.offsetHeight / 2)
+                   && (scrollTop <= section.offsetTop + section.offsetHeight / 2 )) {
+                    let a = document.querySelector(`a[href='#${anchor}']`)
+                    self.checkClassName(a);
+                }
+            })
         }
 
         checkClassName(target) {
