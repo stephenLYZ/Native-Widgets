@@ -121,7 +121,7 @@
             if (window.scrollTo) {
                 window.scrollTo({"behavior": "smooth", "top": section.offsetTop})
             } else {
-                this.scrollTo(document.documentElement, section.offsetTop, 30)
+                this.scrollTo(document.documentElement, section.offsetTop, 500)
             }
         }
 
@@ -151,14 +151,15 @@
             let change = to - start
             let currentTime = 0
             let increment = 20         
-            (function animateScroll(){        
-                currentTime += increment;
-                var val = this.easeInOutQuad(currentTime, start, change, duration);
-                element.scrollTop = val;
+            let animateScroll = function (){        
+                currentTime += increment
+                let val = this.easeInOutQuad(currentTime, start, change, duration)
+                element.scrollTop = val
                 if(currentTime < duration) {
-                    setTimeout(animateScroll, increment);
+                    setTimeout(animateScroll, increment)
                 }
-            })();
+            }
+            animateScroll()
         }
         //t = current time
         //b = start value
@@ -166,9 +167,9 @@
         //d = duration
         easeInOutQuad(t, b, c, d) {
             t /= d/2
-            if (t < 1) return c/2*t*t + b;
-            t--;
-            return -c/2 * (t*(t-2) - 1) + b;
+            if (t < 1) return c/2*t*t + b
+            t--
+            return -c/2 * (t*(t-2) - 1) + b
         };
 
         throttle(fn, threshhold = 250) {
