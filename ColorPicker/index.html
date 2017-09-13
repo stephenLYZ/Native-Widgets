@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Color-Picker</title>
+    <link rel="stylesheet" href="./index.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            text-align: center;
+            margin-top: 100px;
+        }
+        h1, p{
+            margin-bottom: 20px;
+        }
+        #container {
+            margin: 40px auto
+        }
+    </style>
+</head>
+<body>
+    <h1> Color-Picker </h1>
+    <p> Click Button Down ⬇️ </p>
+    <p>You choose color: </p>
+    <p class="display"> none </p>
+    <span id="container"></span>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+      class ColorPicker {
+        constructor(options) {
+            this.options = Object.assign({}, ColorPicker.DEFAULT, options)
+            this.el = document.querySelector(this.options.el)
+            this.colors = this.options.colors || []
+            this.handler = this.options.handler || function() {}
+            this.container = document.createElement('span')
+            this.el.appendChild(this.container)
+            this.buildPicker()
+            this.label.addEventListener('mousedown', () => {
+                this.container.classList.toggle('expanded')
+            })
+            this.container.addEventListener('change', this.update.bind(this))
+        }
+
+        buildLabel() {
+            let label = document.createElement('span')
+            label.classList.add('picker-label')
+            label.style.backgroundColor = this.options.default
+            this.container.appendChild(label)
+            return label
+        }
+
+        buildItem(option) {
+            let item = document.createElement('span')
+            item.classList.add('picker-item')
+            item.setAttribute('data-value', option)
+            item.style.backgroundColor = option
+            item.addEventListener('click', () => this.selectItem(item, true))
+            return item
+        }
+
+        buildOptions() {
+            let options = document.createElement('span')
+            options.classList.add('picker-options')
+            this.colors.forEach((option) => {
+                let item = this.buildItem(option)
+                options.appendChild(item)
+            })
+            this.container.append(options)
+        }
+
+        buildPicker() {
+            this.container.classList.add('picker')
+            this.label = this.buildLabel()
+            this.buildOptions()
+        }
+
+        selectItem(item, triggle = false) {
+            let selected = this.container.querySelector('.selected')
+            if (item === selected) return
+            if (selected != null) selected.classList.remove('selected')
+            if (item == null) return
+            item.classList.add('selected')
+            if (item.hasAttribute('data-value')) {
+                let value = item.getAttribute('data-value') || this.options.defalt
+                this.label.style.backgroundColor = value
+            }
+            if (triggle) {
+                this.container.dispatchEvent(new Event('change'));
+            }
+        }
+
+        update() {
+            let selected = this.container.querySelector('.selected')
+            let value = selected.getAttribute('data-value')
+            this.handler(value)
+        }
+      }
+      ColorPicker.DEFAULT = {
+        el: '#container',
+        default: "#eeeeee",
+        colors: [
+            "#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff",
+            "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff",
+            "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff",
+            "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2",
+            "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466"
+        ],
+        handler: function(color) {
+            let display = document.querySelector('.display')
+            display.innerHTML = color
+            display.style.color = color
+        }
+      }
+      new ColorPicker();
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+.picker {
+    padding: 5px;
+    position: relative;
+}
+
+.picker-label {
+    border: 1px solid #9999;
+    background-color: #fff;
+    padding: 0 11px;
+    cursor: pointer;
+    position: relative;
+}
+.picker-label:hover, .picker-item:hover {
+    box-shadow: rgba(0,0,0,0.2) 0 2px 8px;
+}
+.picker-options {
+    border: 1px solid #0000;
+    box-shadow: rgba(0,0,0,0.2) 0 2px 8px;
+    padding: 3px 5px;
+    width: 155px;
+    background-color: #fff;
+    display: none;
+    min-width: 100%;
+    position: absolute;
+    white-space: nowrap;
+}
+
+.picker.expanded .picker-options {
+    display: block;
+    margin-top: -1px;
+    top: 100%;
+    z-index: 1;
+    left: 0;
+}
+
+.picker-item {
+    border: 1px solid #0000;
+    float: left;
+    height: 16px;
+    margin: 2px;
+    padding: 0px;
+    width: 16px;
+    cursor: pointer;
+}
