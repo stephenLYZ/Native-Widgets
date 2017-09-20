@@ -37,6 +37,7 @@
             this.el = document.querySelector(this.options.el)
             this.colors = this.options.colors || []
             this.handler = this.options.handler || function() {}
+            this.selectedColor = this.options.default
             this.container = document.createElement('span')
             this.el.appendChild(this.container)
             this.buildPicker()
@@ -70,12 +71,22 @@
                 options.appendChild(item)
             })
             this.container.append(options)
+            return options
+        }
+
+        buildField() {
+            let field = document.createElement('span')
+            field.classList.add('picker-field')
+            field.innerHTML = this.selectedColor
+            this.options.appendChild(field)
+            return field
         }
 
         buildPicker() {
             this.container.classList.add('picker')
             this.label = this.buildLabel()
-            this.buildOptions()
+            this.options = this.buildOptions()
+            this.field = this.buildField()    
         }
 
         selectItem(item, triggle = false) {
@@ -84,10 +95,10 @@
             if (selected != null) selected.classList.remove('selected')
             if (item == null) return
             item.classList.add('selected')
-            let value
             if (item.hasAttribute('data-value')) {
-                value = item.getAttribute('data-value') || this.options.defalt
-                this.label.style.backgroundColor = value
+                this.selectedColor = item.getAttribute('data-value')
+                this.label.style.backgroundColor = this.selectedColor
+                this.field.innerHTML = this.selectedColor
             }
             if (triggle) {
                 value && this.handler(value)
@@ -96,7 +107,7 @@
       }
       ColorPicker.DEFAULT = {
         el: '#container',
-        default: "#eeeeee",
+        default: "#000000",
         colors: [
             "#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff",
             "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff",

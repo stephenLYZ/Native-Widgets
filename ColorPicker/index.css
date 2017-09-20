@@ -42,3 +42,8 @@
     width: 16px;
     cursor: pointer;
 }
+
+.picker-field {
+    float: left;
+    margin: 10px 50px;
+}
