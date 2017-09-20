@@ -43,7 +43,6 @@
             this.label.addEventListener('mousedown', () => {
                 this.container.classList.toggle('expanded')
             })
-            this.container.addEventListener('change', this.update.bind(this))
         }
 
         buildLabel() {
@@ -85,19 +84,14 @@
             if (selected != null) selected.classList.remove('selected')
             if (item == null) return
             item.classList.add('selected')
+            let value
             if (item.hasAttribute('data-value')) {
-                let value = item.getAttribute('data-value') || this.options.defalt
+                value = item.getAttribute('data-value') || this.options.defalt
                 this.label.style.backgroundColor = value
             }
             if (triggle) {
-                this.container.dispatchEvent(new Event('change'));
+                value && this.handler(value)
             }
-        }
-
-        update() {
-            let selected = this.container.querySelector('.selected')
-            let value = selected.getAttribute('data-value')
-            this.handler(value)
         }
       }
       ColorPicker.DEFAULT = {
