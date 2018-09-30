@@ -1,0 +1,232 @@
+@charset "UTF-8";
+// 2016.4.1
+// By StephenLiu
+
+//定义变量
+$color: #fff !default;  //文本颜色
+$bgColor: #34495e !default;  //背景颜色
+$sfbgColor: #e74c3c !default; //悬浮背景颜色
+$fontSize: 20px; //字体号
+$fontFamily: Arial, Helvetica !default;//设置字体
+$width: 300px !default; //默认宽度
+
+//clearfix
+%clearfix{
+	&{
+		*zoom: 1;
+	}
+	&:before,
+	&:after{
+		content: '';
+		display: table;
+	}
+	&:after{
+		clear: both;
+		overflow: hidden;
+	}
+}
+
+//清楚列表默认样式
+%listStyle{
+	margin: 0;
+	padding: 0;
+	list-style: none outside none;
+}
+//设置文本样式
+%typegraphy{
+	color:$color;
+	text:{
+		decoration: none;
+		align: center;
+	}
+	font:{
+		family: $fontFamily;
+		size: $fontSize;
+	}
+}
+//浏览器前缀
+$prefix-for-webkit: true !default;
+$prefix-for-mozilla: true !default;
+$prefix-for-microsoft: true !default;
+$prefix-for-opera: true !default;
+$prefix-for-spec: true !default;
+
+@mixin prefixer($property,$value,$prefixes){
+	@each $prefix in $prefixes{
+
+		    @if $prefix == webkit and $prefix-for-webkit == true {
+		      -webkit-#{$property}: $value;
+		    }
+		    @else if $prefix == moz and $prefix-for-mozilla == true {
+		      -moz-#{$property}: $value;
+		    }
+		    @else if $prefix == ms and $prefix-for-microsoft == true {
+		      -ms-#{$property}: $value;
+		    }
+		    @else if $prefix == o and $prefix-for-opera == true {
+		      -o-#{$property}: $value;
+		    }
+		    @else if $prefix == spec and $prefix-for-spec == true {
+		      #{$property}: $value;
+		    }
+		    @else {
+		      @warn "Unrecognized prefix: #{$prefix}";
+		    }
+	}
+}
+
+//设置transform
+@mixin transform($property...){
+	@include prefixer(transform,$property,webkit moz ms o spec);
+}
+
+@mixin transform-origin($axes: 50%){
+	@include prefixer(transform-origin,$axes,webkit moz ms o spec);
+}
+
+@mixin skewX($degrees){
+	@include prefixer(transform,skewX($degrees),webkit moz ms o spec);
+}
+
+//设置transition
+@function transition-property-names($props,$vendor: false){
+	$new-props: ();
+	@each $prop in $props{
+		$new-props: append($new-props,transition-property-name($prop,$vendor),comma);
+	}
+	@return $new-props;
+}
+@function transition-property-name($prop,$vendor: false){
+	@if $vendor and $prop == transform{
+		@return unquote('-'+$vendor+'-'+$prop);
+	}
+	@else {
+		@return $prop;
+	}
+}
+
+//transition
+@mixin transition($properties...){
+	@if length($properties) >= 1{
+		@include prefixer(transition,$properties,webkit moz ms o spec);
+	}
+	@else{
+		$properties: all 0.15s ease-out 0;
+		@include prefixer(transition,$properties,webkit moz ms o spec);
+	}
+}
+
+//fix-content
+@mixin fit-content{
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: -o-fit-content;
+    width: -ms-fit-content;
+    width: fit-content;
+}
+
+//box-shadow
+@mixin box-shadow($shadows...){
+	@include prefixer(box-shadow,$shadows,webkit moz ms o spec);
+}
+
+
+//开始设置样式
+//
+.menu{
+	width:$width;
+	@extend %clearfix;
+	@extend %listStyle;
+	@include fit-content;
+	margin: 50px auto;
+}
+.dropmenu{
+	@extend %listStyle;
+}
+.menu>li{
+	background: $bgColor;
+	float: left;
+	position:relative;
+	@include skewX(25deg);
+}
+.menu a{
+	display:block;
+	@extend %typegraphy;
+}
+.menu li:hover{
+	background-color: $sfbgColor;
+}
+.menu>li>a{
+	padding: 1em 2em;
+	@include skewX(-25deg);
+}
+//Dropdown menu
+.dropmenu{
+	position:absolute;
+	width: $width / 2;
+	left: 50%;
+	margin-left: -($width/4);
+	opacity: 0;
+	visibility: hidden;
+	@include skewX(-25deg);
+	@include transform-origin(left top);
+
+	li{
+		background-color: $bgColor;
+		position:relative;
+		overflow: hidden;
+		opacity: 0;
+		visibility: hidden;
+		@include transition(all 0.2s ease);
+		
+		a{
+			padding: 1em 2em;
+		}
+		&::after{
+			content: '';
+			position:absolute;
+			top: -125%;
+			height: 100%;
+			width: 100%;
+			@include box-shadow(0 0 50px rgba(0,0,0,9));
+		}
+		&:nth-child(odd){
+			@include transform(skewX(-25deg) translateX(0));
+
+			a{
+				@include skewX(25deg);
+			}
+
+			&::after{
+				right: -50%;
+				@include transform(skewX(-25deg) rotate(3deg));
+			}
+		}
+
+		&:nth-child(even){
+			@include transform(skewX(25deg) translateX(0));
+
+			a{
+				@include skewX(-25deg);
+			}
+
+			&::after{
+				left: -50%;
+				@include transform(skewX(25deg) rotate(3deg));
+			}
+		}
+	}
+}
+
+.menu > li:hover .dropmenu,
+.menu > li:hover .dropmenu li {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu > li:hover .dropmenu li:nth-child(even){
+    @include transform(skewX(25deg) translateX(15px));
+}
+.menu > li:hover .dropmenu li:nth-child(odd){
+    @include transform(skewX(-25deg) translateX(-15px));
+}
